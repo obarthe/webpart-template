@@ -9,6 +9,9 @@ node_modules
 # jest tests / coverage
 jest
 
+# SonarQube
+.scannerwork
+
 # Build generated files
 dist
 lib

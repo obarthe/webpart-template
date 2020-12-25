@@ -51,6 +51,24 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
 
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'webpart-template'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'webpart-template'
+          cliProjectName: 'Webpart Michelin Template'
+          cliSources: '.'
+          extraProperties: |
+            # Additional properties that will be passed to the scanner,
+            # Put one key=value per line, example:
+            # sonar.exclusions=**/*.bin
+            sonar.tests=$(System.DefaultWorkingDirectory)/src/webparts/WebpartTemplate
+            sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/jest/lcov.info
+            sonar.exclusions=$(System.DefaultWorkingDirectory)/src/webparts/WebpartTemplate/test
+            sonar.test.inclusions=**test.ts,**test.tsx
+          displayName: "Sonar Publish"
+
       - task: Gulp@0
         displayName: 'Package Solution'
         inputs:

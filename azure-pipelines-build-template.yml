@@ -69,6 +69,12 @@ jobs:
             sonar.test.inclusions=**test.ts,**test.tsx
           displayName: "Sonar Publish"
 
+      - task: SonarQubeAnalyze@4
+
+      - task: SonarQubePublish@4
+        inputs:
+        pollingTimeoutSec: '300'
+
       - task: Gulp@0
         displayName: 'Package Solution'
         inputs:

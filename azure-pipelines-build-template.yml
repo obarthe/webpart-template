@@ -73,7 +73,7 @@ jobs:
 
       - task: SonarQubePublish@4
         inputs:
-        pollingTimeoutSec: '300'
+          pollingTimeoutSec: '300'
 
       - task: Gulp@0
         displayName: 'Package Solution'

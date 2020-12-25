@@ -37,12 +37,13 @@ jobs:
       - script: npm test
         displayName: 'npm test'
 
+        # Publish Test Results to Azure Pipelines
       - task: PublishTestResults@2
-        displayName: Publish test results
         inputs:
-          testResultsFormat: JUnit
-          testResultsFiles: '**/junit.xml'
-          #failTaskOnFailedTests: true #if we want to fail the build on failed unit tests
+          testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+          testResultsFiles: '**/summary-jest-junit.xml'
+        displayName: 'Publish test results'
+        #failTaskOnFailedTests: true #if we want to fail the build on failed unit tests
 
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish code coverage results'

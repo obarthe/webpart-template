@@ -5,7 +5,7 @@ resources:
 trigger:
   branches:
     include:
-    - main
+    - master
 
 stages:
 - stage: build

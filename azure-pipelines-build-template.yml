@@ -63,9 +63,9 @@ jobs:
             # Additional properties that will be passed to the scanner,
             # Put one key=value per line, example:
             # sonar.exclusions=**/*.bin
-            sonar.tests=src/webparts/WebpartTemplate
-            sonar.typescript.lcov.reportPaths=jest/lcov.info
-            sonar.exclusions=src/webparts/WebpartTemplate/test
+            sonar.tests=$(System.DefaultWorkingDirectory)/src/webparts/WebpartTemplate
+            sonar.typescript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/jest/lcov.info
+            sonar.exclusions=$(System.DefaultWorkingDirectory)/src/webparts/WebpartTemplate/test
             sonar.test.inclusions=**test.ts,**test.tsx
           displayName: "Sonar Publish"
 

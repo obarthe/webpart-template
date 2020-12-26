@@ -36,7 +36,7 @@ jobs:
           cliProjectKey: 'webpart-template'
           cliProjectName: 'Webpart Michelin Template'
           cliSources: '.'
-          #extraProperties: |
+          extraProperties: |
             # Additional properties that will be passed to the scanner,
             # Put one key=value per line, example:
             # sonar.exclusions=**/*.bin

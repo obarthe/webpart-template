@@ -58,15 +58,15 @@ jobs:
           configMode: 'manual'
           cliProjectKey: 'webpart-template'
           cliProjectName: 'Webpart Michelin Template'
-          cliSources: '$(Build.SourcesDirectory)'
-          extraProperties: |
+          cliSources: '.'
+          #extraProperties: |
             # Additional properties that will be passed to the scanner,
             # Put one key=value per line, example:
             # sonar.exclusions=**/*.bin
-            sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
-            sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
-            sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
-            sonar.test.inclusions=**test.ts,**test.tsx
+            #sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
+            #sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
+            #sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
+            #sonar.test.inclusions=**test.ts,**test.tsx
           displayName: "Sonar Publish"
 
       - task: SonarQubeAnalyze@4

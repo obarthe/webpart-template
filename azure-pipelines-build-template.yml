@@ -40,21 +40,15 @@ jobs:
             # Additional properties that will be passed to the scanner,
             # Put one key=value per line, example:
             # sonar.exclusions=**/*.bin
-            #sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
-            #sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
-            #sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
-            #sonar.test.inclusions=**test.ts,**test.tsx
+            sonar.tests=/src/webparts/WebpartTemplate
+            sonar.typescript.lcov.reportPaths=/jest/lcov.info
+            sonar.exclusions=/src/webparts/WebpartTemplate/test
+            sonar.test.inclusions=**test.ts,**test.tsx
 
       - script: |
           gulp clean
           gulp build --ship
         displayName: 'gulp build solution'
-
-      - task: SonarQubeAnalyze@4
-
-      - task: SonarQubePublish@4
-        inputs:
-          pollingTimeoutSec: '300'
 
       - task: Gulp@0
         displayName: 'Bundle project'
@@ -78,6 +72,12 @@ jobs:
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+
+      - task: SonarQubeAnalyze@4
+
+      - task: SonarQubePublish@4
+        inputs:
+          pollingTimeoutSec: '300'
 
       - task: Gulp@0
         displayName: 'Package Solution'

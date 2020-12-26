@@ -28,22 +28,6 @@ jobs:
       - script: npm ci
         displayName: 'npm ci'
 
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'webpart-template'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: 'webpart-template'
-          cliProjectName: 'Webpart Michelin Template'
-          extraProperties: |
-            # Additional properties that will be passed to the scanner,
-            # Put one key=value per line, example:
-            # sonar.exclusions=**/*.bin
-            sonar.tests=src/webparts/WebpartTemplate
-            sonar.typescript.lcov.reportPaths=jest/lcov.info
-            sonar.exclusions=src/webparts/WebpartTemplate/test
-            sonar.test.inclusions=**test.ts,**test.tsx
-
       - script: |
           gulp clean
           gulp build --ship
@@ -52,11 +36,27 @@ jobs:
       - script: npm test
         displayName: 'npm test'
 
-      - task: SonarQubeAnalyze@4
+      #- task: SonarQubePrepare@4
+      #  inputs:
+      #    SonarQube: 'webpart-template'
+      #    scannerMode: 'CLI'
+      #    configMode: 'manual'
+      #    cliProjectKey: 'webpart-template'
+      #    cliProjectName: 'Webpart Michelin Template'
+      #    extraProperties: |
+            # Additional properties that will be passed to the scanner,
+            # Put one key=value per line, example:
+            # sonar.exclusions=**/*.bin
+      #      sonar.tests=src/webparts/WebpartTemplate
+      #      sonar.typescript.lcov.reportPaths=jest/lcov.info
+      #      sonar.exclusions=src/webparts/WebpartTemplate/test
+      #      sonar.test.inclusions=**test.ts,**test.tsx
 
-      - task: SonarQubePublish@4
-        inputs:
-          pollingTimeoutSec: '300'
+      #- task: SonarQubeAnalyze@4
+
+      #- task: SonarQubePublish@4
+      #  inputs:
+      #    pollingTimeoutSec: '300'
 
         # Publish Test Results to Azure Pipelines
       - task: PublishTestResults@2

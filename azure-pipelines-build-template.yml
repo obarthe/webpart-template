@@ -35,14 +35,14 @@ jobs:
           configMode: 'manual'
           cliProjectKey: 'webpart-template'
           cliProjectName: 'Webpart Michelin Template'
-          cliSources: '.'
-          extraProperties: |
+          cliSources: '$(Build.SourcesDirectory)'
+          #extraProperties: |
             # Additional properties that will be passed to the scanner,
             # Put one key=value per line, example:
             # sonar.exclusions=**/*.bin
-            sonar.tests=/src/webparts/WebpartTemplate
-            sonar.typescript.lcov.reportPaths=/jest/lcov.info
-            sonar.exclusions=/src/webparts/WebpartTemplate/test
+            sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
+            sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
+            sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
             sonar.test.inclusions=**test.ts,**test.tsx
 
       - script: |
@@ -50,14 +50,14 @@ jobs:
           gulp build --ship
         displayName: 'gulp build solution'
 
-      - task: Gulp@0
-        displayName: 'Bundle project'
-        inputs:
-          targets: bundle
-          arguments: '--ship'
-
       - script: npm test
         displayName: 'npm test'
+
+      - task: SonarQubeAnalyze@4
+
+      - task: SonarQubePublish@4
+        inputs:
+          pollingTimeoutSec: '300'
 
         # Publish Test Results to Azure Pipelines
       - task: PublishTestResults@2
@@ -73,11 +73,11 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
 
-      - task: SonarQubeAnalyze@4
-
-      - task: SonarQubePublish@4
+      - task: Gulp@0
+        displayName: 'Bundle project'
         inputs:
-          pollingTimeoutSec: '300'
+          targets: bundle
+          arguments: '--ship'
 
       - task: Gulp@0
         displayName: 'Package Solution'

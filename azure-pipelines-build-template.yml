@@ -28,6 +28,34 @@ jobs:
       - script: npm ci
         displayName: 'npm ci'
 
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'webpart-template'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'webpart-template'
+          cliProjectName: 'Webpart Michelin Template'
+          cliSources: '.'
+          #extraProperties: |
+            # Additional properties that will be passed to the scanner,
+            # Put one key=value per line, example:
+            # sonar.exclusions=**/*.bin
+            #sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
+            #sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
+            #sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
+            #sonar.test.inclusions=**test.ts,**test.tsx
+
+      - script: |
+          gulp clean
+          gulp build --ship
+        displayName: 'gulp build solution'
+
+      - task: SonarQubeAnalyze@4
+
+      - task: SonarQubePublish@4
+        inputs:
+          pollingTimeoutSec: '300'
+
       - task: Gulp@0
         displayName: 'Bundle project'
         inputs:
@@ -50,29 +78,6 @@ jobs:
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'webpart-template'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: 'webpart-template'
-          cliProjectName: 'Webpart Michelin Template'
-          cliSources: '.'
-          #extraProperties: |
-            # Additional properties that will be passed to the scanner,
-            # Put one key=value per line, example:
-            # sonar.exclusions=**/*.bin
-            #sonar.tests=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate
-            #sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/jest/lcov.info
-            #sonar.exclusions=$(Build.SourcesDirectory)/src/webparts/WebpartTemplate/test
-            #sonar.test.inclusions=**test.ts,**test.tsx
-
-      - task: SonarQubeAnalyze@4
-
-      - task: SonarQubePublish@4
-        inputs:
-          pollingTimeoutSec: '300'
 
       - task: Gulp@0
         displayName: 'Package Solution'
